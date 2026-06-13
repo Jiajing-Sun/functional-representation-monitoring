@@ -1,6 +1,6 @@
 # R Code for Online Monitoring of Functional Representations
 
-This repository contains the public R code for the RESTat submission
+This repository contains the public R code for the associated manuscript
 `When to Refresh a Functional Representation: Online Monitoring of Structural Change in Functional Time Series`.
 
 The repository contains code only. It excludes raw TickData files, generated CSV/RDS outputs, figures, LaTeX tables,

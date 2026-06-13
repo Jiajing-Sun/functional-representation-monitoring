@@ -64,7 +64,7 @@ find_project_root <- function(start = NULL,
 
   stop(
     "Could not locate the simulation project root. Run the script from inside the project folder, ",
-    "or pass --root=/path/to/RESTat_R_code_github/simulations/main."
+    "or pass --root=/path/to/functional-representation-monitoring/simulations/main."
   )
 }
 
