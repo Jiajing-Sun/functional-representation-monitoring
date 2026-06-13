@@ -77,3 +77,8 @@ See `DATA_ACCESS.md` and `empirical_analysis/data/README.md`.
 
 See `REPRODUCIBILITY.md` for the intended reproduction sequence and for the distinction between lightweight smoke
 tests and full Monte Carlo runs.
+
+## License
+
+No public reuse license has been selected for this repository. Unless a license is added later, default copyright
+restrictions apply.
