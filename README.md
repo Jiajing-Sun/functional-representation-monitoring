@@ -1,84 +1,37 @@
-# R Code for Online Monitoring of Functional Representations
+# Adjusted-Range Self-Normalization for Functional Time Series
 
-This repository contains the public R code for the associated manuscript
-`When to Refresh a Functional Representation: Online Monitoring of Structural Change in Functional Time Series`.
+Replication materials for **Adjusted-Range Self-Normalization for Sequential Monitoring of Functional Principal Component Score Means**, updated 9 September 2026.
 
-The repository contains code only. It excludes raw TickData files, generated CSV/RDS outputs, figures, LaTeX tables,
-cached Monte Carlo results, and old source snapshots.
+## Current manuscript: download and run
 
-## Repository Layout
+The implementation, saved numerical results and Movie S1 are provided below. Download and extract the archives into the **same directory**, preserving their internal paths.
 
-- `critical_values/`: finite-horizon critical-value simulation code for the main KS/weighted-CvM monitors and the supplementary detector families.
-- `simulations/`: Monte Carlo designs, contaminated-training designs, HAC kernel-and-bandwidth sensitivity checks, and diagnostics.
-- `empirical_analysis/`: S&P 500 intraday empirical scripts. Licensed TickData input is not included.
-- `tests/`: parse checks, private-artifact checks, and a small critical-value smoke test.
+| Archive | Contents |
+| --- | --- |
+| [Replication_Code_and_Results.zip](Replication_Code_and_Results.zip) | R implementation, simulation and empirical scripts, CSV results, documentation and static figures |
+| [Replication_Empirical_Continuous.zip](Replication_Empirical_Continuous.zip) | Saved objects and Brownian maxima for continuous 2019–2020 monitoring |
+| [Replication_Empirical_Sensitivity.zip](Replication_Empirical_Sensitivity.zip) | Brownian caches for supplementary reference-window comparisons |
+| [Movie_S1_SPX_intraday_surface.mp4](Movie_S1_SPX_intraday_surface.mp4) | Two-panel animation of intraday profiles and first monitoring alarms |
 
-## Quick Start
+If downloading the movie separately, put it in the extracted package's `multimedia/` directory. The code-and-results archive includes its documentation and generation script.
 
-1. Check R package dependencies:
-
-```sh
-Rscript requirements.R --check
-```
-
-2. Run lightweight repository checks:
+From the extracted package root, run:
 
 ```sh
-./run_smoke_tests.sh
+Rscript reproducibility/code/tests/test_dual_channel_monitor.R
+Rscript reproducibility/code/empirical/check_spx_continuous_outputs.R
 ```
 
-3. Generate finite-horizon main critical values:
+The first command checks the implementation; the second checks saved continuous-monitoring results. Neither requires licensed minute observations. These checks are not a rerun of the full Monte Carlo study. See the extracted `README.md`, `reproducibility/README.md` and `reproducibility/code/README.md` for the file-to-result map, dependencies and commands for full replication.
 
-```sh
-Rscript critical_values/main/run_generate_streamingcurve_cv.R --ncores=4
-```
+## Current empirical specification
 
-4. Generate finite-horizon supplementary detector critical values when needed:
+FPCA is fitted on 2014–2015, reference quantities are estimated from 2016–2018, and monitoring continues through all 500 retained trading days in 2019–2020 without a January reset. Method-specific critical values use 250,000 matched-grid Brownian simulations. First alarms occur on 25 March 2020 for adjusted-range SN and 4 May 2020 for quadratic SN. These are first threshold crossings, not estimates of the date a change began. Earlier 2020-only analyses are retained for supplementary Appendix E.
 
-```sh
-Rscript critical_values/alternative_detectors/run_generate_alt_detector_cv.R --ncores=4
-```
+## Data access
 
-5. Run simulations after the relevant critical-value tables exist. For example:
+Raw licensed TickData observations are not redistributed. Researchers with the appropriate licence can obtain the source observations directly from TickData. Set `SPX_DATA_FILE` to the licensed input when running scripts that require it. Derived outputs are supplied for checking reported results; regenerating the curves and movie from minute observations requires licensed data access.
 
-```sh
-Rscript simulations/main/run_null_streamingcurve_simulation.R --ncores=4
-Rscript simulations/main/run_power_streamingcurve_simulation.R --scenario=level_shift --ncores=4
-```
+## Licence
 
-6. Run empirical scripts only after placing the licensed TickData file at `empirical_analysis/data/SPX.csv`, or pass an explicit file:
-
-```sh
-Rscript empirical_analysis/run_empirical_bundle_refresh.R --data_file=/path/to/SPX.csv
-```
-
-## Monitoring Horizons
-
-The main simulations and empirical application use finite monitoring horizons. The public critical-value generators
-therefore default to `T = 1, 2, 5, 10`. The appendix also reports open-end KS and weighted-CvM critical values; those
-simulations can be run explicitly with `--include_openend=true`.
-
-## Outputs
-
-Generated outputs are ignored by `.gitignore`. The canonical public critical-value locations are:
-
-- `critical_values/main/outputs/critical_values_all.csv`
-- `critical_values/main/outputs/critical_values_all_weights.csv`
-- `critical_values/alternative_detectors/outputs/critical_values_alt_detectors.csv`
-
-Simulation and empirical scripts look for those paths before falling back to local output folders.
-
-## Data
-
-The empirical application uses licensed 1-minute S&P 500 data from TickData. The data are not redistributed here.
-See `DATA_ACCESS.md` and `empirical_analysis/data/README.md`.
-
-## Reproducibility
-
-See `REPRODUCIBILITY.md` for the intended reproduction sequence and for the distinction between lightweight smoke
-tests and full Monte Carlo runs.
-
-## License
-
-No public reuse license has been selected for this repository. Unless a license is added later, default copyright
-restrictions apply.
+No public reuse licence has been selected. Existing copyright restrictions remain in place.
